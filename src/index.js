@@ -27,7 +27,12 @@ function reset() {
 
 function handlerFetchCountries(value) {
   fetchCountries(value)
-    .then(r => (r.ok ? r.json() : Promise.reject()))
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.json();
+    })
     .then(response)
     .catch(error);
 }
@@ -53,6 +58,7 @@ function oneCoutnry(params) {
 
 function error() {
   Notify.failure('Oops, there is no country with that name');
+  reset();
 }
 
 function onItemClick(e) {
