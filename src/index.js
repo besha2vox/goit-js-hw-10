@@ -5,6 +5,7 @@ import { createMarkupList, createMarkup } from './js/templates.js';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const DEBOUNCE_DELAY = 300;
+
 const refs = {
   input: document.querySelector('#search-box'),
   list: document.querySelector('.country-list'),
@@ -26,15 +27,7 @@ function reset() {
 }
 
 function handlerFetchCountries(value) {
-  fetchCountries(value)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
-      return response.json();
-    })
-    .then(response)
-    .catch(error);
+  fetchCountries(value).then(response).catch(error);
 }
 
 function response(params) {
@@ -45,6 +38,7 @@ function response(params) {
 
 function overTenCountries(params) {
   Notify.info('Too many matches found. Please enter a more specific name.');
+  reset();
 }
 
 function lessTenCountries(params) {
